@@ -2,6 +2,8 @@
 let count = 0;
 let timeoutId = null;
 let displayTime = null;
+let startTime = null;
+let time = null;
 
 const $display = document.querySelector('.display');
 const [$leftButton, $rightButton] = [...document.querySelectorAll('.control')];
@@ -36,9 +38,9 @@ $leftButton.onclick = () => {
     $leftButton.textContent = 'Stop';
     $rightButton.textContent = 'Lap';
 
-    const startTime = new Date();
+    startTime = startTime || new Date();
     timeoutId = setInterval(() => {
-      const time = new Date() - startTime;
+      time = new Date() - startTime;
       const minute = Math.floor(time / 1000 / 60);
       const second = Math.floor((time / 1000) % 60);
       const millisecond = Math.floor((time / 10) % 100);
