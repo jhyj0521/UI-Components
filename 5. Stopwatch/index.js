@@ -1,6 +1,9 @@
 // state
 let count = 0;
+let timeoutId = null;
+let displayTime = null;
 
+const $display = document.querySelector('.display');
 const [$leftButton, $rightButton] = [...document.querySelectorAll('.control')];
 const $laps = document.querySelector('.laps');
 const $lapTitle = [...document.querySelectorAll('.lap-title')];
@@ -32,9 +35,24 @@ $leftButton.onclick = () => {
   if ($leftButton.textContent === 'Start') {
     $leftButton.textContent = 'Stop';
     $rightButton.textContent = 'Lap';
+
+    const startTime = new Date();
+    timeoutId = setInterval(() => {
+      const time = new Date() - startTime;
+      const minute = Math.floor(time / 1000 / 60);
+      const second = Math.floor((time / 1000) % 60);
+      const millisecond = Math.floor((time / 10) % 100);
+      displayTime = [minute, second, millisecond]
+        .map(unit => (unit + '').padStart(2, '0'))
+        .join(':');
+
+      $display.textContent = displayTime;
+    }, 100);
   } else {
     $leftButton.textContent = 'Start';
     $rightButton.textContent = 'Reset';
+
+    clearInterval(timeoutId);
   }
 };
 
