@@ -1,0 +1,27 @@
+{
+  "name": "ui-components",
+  "version": "1.0.0",
+  "description": "pair programming",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jhyj0521/UI-Components.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jhyj0521/UI-Components/issues"
+  },
+  "homepage": "https://github.com/jhyj0521/UI-Components#readme",
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-html": "^6.2.0",
+    "eslint-plugin-import": "^2.24.2"
+  }
+}
