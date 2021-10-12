@@ -2,6 +2,7 @@ const $accordion = document.querySelector('.accordion');
 const $active = document.querySelector('.active');
 
 window.addEventListener('DOMContentLoaded', () => {
+  $active.lastElementChild.style.height = 'auto';
   $active.lastElementChild.style.height = `${$active.lastElementChild.scrollHeight}px`;
 });
 
