@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Popup</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400"
+      rel="stylesheet"
+    />
+    <link
+      href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::after,
+      *::before {
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Open Sans';
+        font-weight: 300;
+      }
+      .title {
+        color: #db5b33;
+        font-weight: 300;
+        text-align: center;
+      }
+      /* 팝업을 위한 CSS */
+      .modal-background.is-active {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: flex-start;
+        padding: 0 1.5rem;
+      }
+      .modal-background {
+        display: none;
+      }
+      .modal {
+        top: 20%;
+        max-width: 520px;
+        min-height: 200px;
+        padding: 1.5rem;
+        margin: 0 auto;
+        background: #ffffff;
+        border-radius: 8px;
+        position: relative;
+        /* text-align: left; */
+      }
+      .modal-form {
+        display: flex;
+        gap: 3px;
+      }
+      .close-button {
+        display: inline-block;
+        position: absolute;
+        top: 1.5rem;
+        right: 1.5rem;
+        background-color: transparent;
+        font-size: 2rem;
+        border: none;
+        cursor: pointer;
+        line-height: 1rem;
+      }
+      .close-button span {
+        display: inline-block;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 class="title">Popup</h1>
+    <button type="button" class="open-button">toggle popup</button>
+    <div class="modal-background">
+      <div
+        class="modal"
+        role="dialog"
+        aria-labelledby="modalTitle"
+        aria-modal="true"
+      >
+        <h2 id="modalTitle" class="title">Hello!</h2>
+        <button
+          type="button"
+          class="close-button"
+          aria-label="모달 닫기"
+          title="모달 닫기"
+        >
+          <span aria-hidden="true">×</span>
+        </button>
+        <p class="modal-content">
+          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Laborum
+          optio ab porro magni in sunt ipsam, repellat velit voluptatum
+          accusantium aperiam. Nostrum sunt reprehenderit nemo!
+        </p>
+        <form class="modal-form">
+          <input type="text" class="modal-input" />
+          <button type="submit" class="ok-button">OK</button>
+          <button type="button" class="cancel-button">Cancel</button>
+        </form>
+      </div>
+    </div>
+    <p class="popup-message"></p>
+    <script src="index.js"></script>
+  </body>
+</html>
