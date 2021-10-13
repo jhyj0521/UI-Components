@@ -19,8 +19,14 @@ const toaster = (() => {
       $div.setAttribute('class', `toast toast-${type}`);
 
       $body.appendChild($div);
-
       count += 1;
+
+      const toasts = [...document.querySelectorAll('.toast')];
+      const height = $div.scrollHeight;
+
+      toasts.forEach(($el, index) => {
+        $el.style.bottom = height * (toasts.length - 1 - index) + 'px';
+      });
 
       setTimeout(() => {
         $body.removeChild($div);
