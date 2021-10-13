@@ -1,7 +1,6 @@
 import store from './store.mjs';
 
 const $body = document.querySelector('body');
-const $form = document.querySelector('.form');
 
 $body.onkeyup = ({ target }) => {
   const $inputContainer = target.parentNode;
@@ -29,10 +28,32 @@ $body.onkeyup = ({ target }) => {
       : 'disabled';
 };
 
-$form.onsubmit = e => {
+$body.onsubmit = e => {
   e.preventDefault();
+
   console.log('POST /signin', {
     email: store.getValue('userid'),
     password: store.getValue('password')
   });
+
+  if (e.target.classList.contains('signin')) {
+    const $div = document.createElement('div');
+    $div.innerHTML = `
+        <h4 class="toast-heading">Well done!</h4>
+        <div class="toast-message">
+          <svg width="24" height="24">
+            <use xlink:href="#success" />
+          </svg>
+          <p>Signin Successfully</p>
+        </div>
+        <a class="close">&times;</a>`;
+
+    $div.setAttribute('class', `toast toast-success`);
+    $div.style.bottom = '0';
+    $body.appendChild($div);
+
+    setTimeout(() => {
+      $body.removeChild($div);
+    }, 3000);
+  }
 };
