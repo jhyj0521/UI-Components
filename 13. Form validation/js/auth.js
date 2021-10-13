@@ -1,6 +1,20 @@
 import store from './store.mjs';
 
+const currentPage = 'Singin';
+
 const $body = document.querySelector('body');
+
+const resetVaildateCheck = () => {
+  const inputContainers = document.querySelectorAll('.input-container');
+
+  [...inputContainers].forEach($inputContainer => {
+    $inputContainer.querySelector('.icon-success').classList.add('hidden');
+    $inputContainer.querySelector('.icon-error').classList.add('hidden');
+
+    $inputContainer.querySelector('.error').textContent = '';
+    document.querySelector('.signin.button').disabled = 'disabled';
+  });
+};
 
 $body.onkeyup = ({ target }) => {
   const $inputContainer = target.parentNode;
@@ -44,7 +58,7 @@ $body.onsubmit = e => {
           <svg width="24" height="24">
             <use xlink:href="#success" />
           </svg>
-          <p>Signin Successfully</p>
+          <p>${currentPage} Successfully</p>
         </div>
         <a class="close">&times;</a>`;
 
@@ -56,4 +70,15 @@ $body.onsubmit = e => {
       $body.removeChild($div);
     }, 3000);
   }
+};
+
+$body.onclick = e => {
+  if (!e.target.parentNode.classList.contains('link')) return;
+
+  [...document.querySelectorAll('form')].forEach($el => {
+    $el.classList.toggle('hidden');
+    $el.reset();
+    store.reset();
+  });
+  resetVaildateCheck();
 };

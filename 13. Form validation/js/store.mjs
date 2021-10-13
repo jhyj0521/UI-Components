@@ -1,4 +1,4 @@
-const state = {
+let state = {
   userid: {
     regExp: new RegExp(
       /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/
@@ -29,6 +29,25 @@ const setValue = (inputType, newValue) => {
   setValidated(inputType);
 };
 
-const store = { getErrorMessage, getValidated, getValue, setValue };
+const reset = () => {
+  state = {
+    userid: {
+      regExp: new RegExp(
+        /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/
+      ),
+      errorMessage: '이메일 형식에 맞게 입력해 주세요.',
+      validated: false,
+      value: ''
+    },
+    password: {
+      regExp: new RegExp(/^[0-9a-zA-Z]{6,12}$/),
+      errorMessage: '영문 또는 숫자를 6~12자 입력하세요.',
+      validated: false,
+      value: ''
+    }
+  };
+};
+
+const store = { getErrorMessage, getValidated, getValue, setValue, reset };
 
 export default store;
