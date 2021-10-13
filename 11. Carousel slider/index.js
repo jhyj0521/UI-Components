@@ -23,29 +23,6 @@ const carousel = ($container, images) => {
     .style.setProperty('--currentSlide', currentSlide);
 };
 
-const setCurrentSlide = isPrev => {
-  const $carouselSlides = document.querySelector('.carousel-slides');
-
-  currentSlide = isPrev ? currentSlide - 1 : currentSlide + 1;
-  $carouselSlides.style.setProperty('--currentSlide', currentSlide);
-
-  if (
-    (isPrev && currentSlide === 0) ||
-    (!isPrev && currentSlide === imageLength + 1)
-  ) {
-  }
-
-  const endOfSlide = isPrev ? 0 : imageLength + 1;
-  if (currentSlide === endOfSlide) {
-    currentSlide = isPrev ? imageLength : 1;
-    setTimeout(() => {
-      $carouselSlides.style.setProperty('--duration', '0');
-      $carouselSlides.style.setProperty('--currentSlide', currentSlide);
-    }, 200);
-  }
-  $carouselSlides.style.setProperty('--duration', '200');
-};
-
 window.onload = () => {
   const $carouselSlides = document.querySelector('.carousel-slides');
 
@@ -57,9 +34,30 @@ window.onload = () => {
 $carousel.onclick = e => {
   if (!e.target.classList.contains('carousel-control')) return;
 
-  e.target.classList.contains('prev')
-    ? setCurrentSlide(true)
-    : setCurrentSlide(false);
+  const $carouselSlides = document.querySelector('.carousel-slides');
+
+  if (e.target.classList.contains('prev')) {
+    currentSlide -= 1;
+    $carouselSlides.style.setProperty('--currentSlide', currentSlide);
+    if (currentSlide === 0) {
+      currentSlide = imageLength;
+      setTimeout(() => {
+        $carouselSlides.style.setProperty('--duration', '0');
+        $carouselSlides.style.setProperty('--currentSlide', currentSlide);
+      }, 200);
+    }
+  } else {
+    currentSlide += 1;
+    $carouselSlides.style.setProperty('--currentSlide', currentSlide);
+    if (currentSlide === imageLength + 1) {
+      currentSlide = 1;
+      setTimeout(() => {
+        $carouselSlides.style.setProperty('--duration', '0');
+        $carouselSlides.style.setProperty('--currentSlide', currentSlide);
+      }, 200);
+    }
+  }
+  $carouselSlides.style.setProperty('--duration', '200');
 };
 
 carousel($carousel, [
