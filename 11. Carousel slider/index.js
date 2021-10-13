@@ -1,5 +1,6 @@
 let currentSlide = 1;
 let imageLength = 0;
+let delayed = false;
 
 const $carousel = document.querySelector('.carousel');
 
@@ -8,7 +9,7 @@ const carousel = ($container, images) => {
 
   const imageTag = `
     <img src="${images[imageLength - 1]}" />
-    ${images.map(image => `<img src="${image}" />`).join('')}
+    ${images.map(image => `<img src="${image}"  />`).join('')}
     <img src="${images[0]}" />`;
 
   $container.innerHTML = `
@@ -44,7 +45,11 @@ window.onload = () => {
 };
 
 $carousel.onclick = e => {
-  if (!e.target.classList.contains('carousel-control')) return;
+  if (delayed || !e.target.classList.contains('carousel-control')) return;
+
+  delayed = setTimeout(() => {
+    delayed = false;
+  }, 300);
 
   const $carouselSlides = document.querySelector('.carousel-slides');
 
