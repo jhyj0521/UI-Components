@@ -157,26 +157,6 @@
       <a class="close">&times;</a>
     </div>
     -->
-    <script>
-      const toaster = /* Do something! */
-
-      const TOAST_TYPE = {
-        SUCCESS: 'success',
-        ERROR: 'error',
-        WARNING: 'warning',
-      };
-
-      const createToastAction = (type, title, message) => ({ type, title, message });
-
-      // Button click Event Handlers
-      document.querySelector('.show-success').onclick = () =>
-        toaster.add(createToastAction(TOAST_TYPE.SUCCESS, 'Well done!', 'This is a success alert'));
-
-      document.querySelector('.show-error').onclick = () =>
-        toaster.add(createToastAction(TOAST_TYPE.ERROR, 'Check it out!', 'This is a error alert'));
-
-      document.querySelector('.show-warning').onclick = () =>
-        toaster.add(createToastAction(TOAST_TYPE.WARNING, 'Check it out!', 'This is a warning alert'));
-    </script>
+    <script src="index.js"></script>
   </body>
 </html>
