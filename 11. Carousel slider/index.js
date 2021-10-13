@@ -23,11 +23,23 @@ const carousel = ($container, images) => {
     .style.setProperty('--currentSlide', currentSlide);
 };
 
+const setCurrentSlide = () => {
+  const $carouselSlides = document.querySelector('.carousel-slides');
+
+  currentSlide = currentSlide ? 1 : imageLength;
+
+  setTimeout(() => {
+    $carouselSlides.style.setProperty('--duration', '0');
+    $carouselSlides.style.setProperty('--currentSlide', currentSlide);
+  }, 200);
+};
+
 window.onload = () => {
   const $carouselSlides = document.querySelector('.carousel-slides');
 
   // TODO: scrollWidth와 naturalWidth 중 사용할 것 결정하기
   $carousel.style.width = $carouselSlides.firstElementChild.scrollWidth + 'px';
+  $carousel.style.opacity = 1;
   $carouselSlides.style.setProperty('--duration', '200');
 };
 
@@ -36,27 +48,13 @@ $carousel.onclick = e => {
 
   const $carouselSlides = document.querySelector('.carousel-slides');
 
-  if (e.target.classList.contains('prev')) {
-    currentSlide -= 1;
-    $carouselSlides.style.setProperty('--currentSlide', currentSlide);
-    if (currentSlide === 0) {
-      currentSlide = imageLength;
-      setTimeout(() => {
-        $carouselSlides.style.setProperty('--duration', '0');
-        $carouselSlides.style.setProperty('--currentSlide', currentSlide);
-      }, 200);
-    }
-  } else {
-    currentSlide += 1;
-    $carouselSlides.style.setProperty('--currentSlide', currentSlide);
-    if (currentSlide === imageLength + 1) {
-      currentSlide = 1;
-      setTimeout(() => {
-        $carouselSlides.style.setProperty('--duration', '0');
-        $carouselSlides.style.setProperty('--currentSlide', currentSlide);
-      }, 200);
-    }
-  }
+  currentSlide = e.target.classList.contains('prev')
+    ? currentSlide - 1
+    : currentSlide + 1;
+
+  $carouselSlides.style.setProperty('--currentSlide', currentSlide);
+
+  if (currentSlide === 0 || currentSlide === imageLength + 1) setCurrentSlide();
   $carouselSlides.style.setProperty('--duration', '200');
 };
 
