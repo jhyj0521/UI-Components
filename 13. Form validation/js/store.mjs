@@ -48,7 +48,9 @@ const toggleCurrentPage = () => {
 
 const setConfirmPasswordValidated = () => {
   const input = formData.find(({ type }) => type === 'confirm-password');
-  input.validated = getValue('confirm-password') === getValue('password') && getValue('password') !== '';
+  input.validated =
+    getValue('confirm-password') === getValue('password') &&
+    getValue('password') !== '';
 };
 
 const setValidated = inputType => {
@@ -77,6 +79,13 @@ const resetForm = () => {
   formData = formData.map(input => ({ ...input, validated: false, value: '' }));
 };
 
+const printLog = () => {
+  const a =
+    currentPage === 'signin'
+      ? formData.filter(({ type }) => type === 'userid' || type === 'password')
+      : formData;
+};
+
 const store = {
   getCurrentPage,
   getErrorMessage,
@@ -85,7 +94,8 @@ const store = {
   toggleCurrentPage,
   setValue,
   isValidForm,
-  resetForm
+  resetForm,
+  printLog
 };
 
 export default store;

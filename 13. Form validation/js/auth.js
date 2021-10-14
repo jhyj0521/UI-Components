@@ -56,10 +56,12 @@ $body.onkeyup = ({ target }) => {
 $body.onsubmit = e => {
   e.preventDefault();
 
-  console.log(`POST /${store.getCurrentPage()}`, {
-    email: store.getValue('userid'),
-    password: store.getValue('password')
-  });
+  store.printLog();
+
+  // console.log(`POST /${store.getCurrentPage()}`, {
+  //   email: store.getValue('userid'),
+  //   password: store.getValue('password')
+  // });
 
   if (e.target.classList.contains('signin')) {
     const $div = document.createElement('div');
