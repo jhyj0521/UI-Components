@@ -1,7 +1,5 @@
 import store from './store.mjs';
 
-const currentPage = 'Singin';
-
 const $body = document.querySelector('body');
 
 const resetVaildateCheck = () => {
@@ -13,6 +11,7 @@ const resetVaildateCheck = () => {
 
     $inputContainer.querySelector('.error').textContent = '';
     document.querySelector('.signin.button').disabled = 'disabled';
+    document.querySelector('.signup.button').disabled = 'disabled';
   });
 };
 
@@ -24,6 +23,7 @@ $body.onkeyup = ({ target }) => {
   store.setValue(target.name, target.value);
 
   const validated = store.getValidated(target.name);
+  const currentPage = store.getCurrentPage();
 
   $inputContainer.querySelector('.error').textContent = validated
     ? ''
@@ -36,10 +36,8 @@ $body.onkeyup = ({ target }) => {
     .querySelector('.icon-error')
     .classList.toggle('hidden', validated);
 
-  document.querySelector('.signin.button').disabled =
-    store.getValidated('userid') && store.getValidated('password')
-      ? ''
-      : 'disabled';
+  document.querySelector(`.${currentPage}.button`).disabled =
+    store.isValidForm() ? '' : 'disabled';
 };
 
 $body.onsubmit = e => {
@@ -58,7 +56,7 @@ $body.onsubmit = e => {
           <svg width="24" height="24">
             <use xlink:href="#success" />
           </svg>
-          <p>${currentPage} Successfully</p>
+          <p>${store.getCurrentPage()} Successfully</p>
         </div>
         <a class="close">&times;</a>`;
 
@@ -78,7 +76,9 @@ $body.onclick = e => {
   [...document.querySelectorAll('form')].forEach($el => {
     $el.classList.toggle('hidden');
     $el.reset();
-    store.reset();
   });
+  store.resetForm();
   resetVaildateCheck();
+
+  store.toggleCurrentPage();
 };
