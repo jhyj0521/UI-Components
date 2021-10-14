@@ -10,16 +10,16 @@ let formData = [
     value: ''
   },
   {
-    type: 'password',
-    regExp: new RegExp(/^[0-9a-zA-Z]{6,12}$/),
-    errorMessage: '영문 또는 숫자를 6~12자 입력하세요.',
+    type: 'username',
+    regExp: new RegExp(/^.{1,}$/),
+    errorMessage: '이름을 입력해 주세요.',
     validated: false,
     value: ''
   },
   {
-    type: 'username',
-    regExp: new RegExp(/^.{1,}$/),
-    errorMessage: '이름을 입력해 주세요.',
+    type: 'password',
+    regExp: new RegExp(/^[0-9a-zA-Z]{6,12}$/),
+    errorMessage: '영문 또는 숫자를 6~12자 입력하세요.',
     validated: false,
     value: ''
   },
@@ -80,10 +80,18 @@ const resetForm = () => {
 };
 
 const printLog = () => {
-  const a =
+  const _formData =
     currentPage === 'signin'
       ? formData.filter(({ type }) => type === 'userid' || type === 'password')
       : formData;
+
+  const inputValue = {};
+
+  _formData.forEach(({ type, value }) => {
+    inputValue[type] = value;
+  });
+
+  console.log(`POST /${getCurrentPage()}`, inputValue);
 };
 
 const store = {

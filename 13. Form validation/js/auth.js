@@ -16,8 +16,6 @@ const renderVaildateCheck = () => {
     const validated = store.getValidated($input.name);
     const value = store.getValue($input.name);
 
-    console.log($input, value);
-
     if (validated) {
       $error.textContent = '';
       $iconSuccess.classList.remove('hidden');
@@ -32,11 +30,37 @@ const renderVaildateCheck = () => {
       $iconError.classList.remove('hidden');
     }
 
+    document.querySelector(`.${currentPage}.button`).disabled = 'disabled';
+
     // $error.textContent = validated ? '' : store.getErrorMessage($input.name);
 
     // $iconSuccess.classList.toggle('hidden', !validated);
     // $iconError.classList.toggle('hidden', validated);
   });
+};
+
+const renderToaster = () => {
+  const $div = document.createElement('div');
+  $div.innerHTML = `
+      <h4 class="toast-heading">Well done!</h4>
+      <div class="toast-message">
+        <svg width="24" height="24">
+          <use xlink:href="#success" />
+        </svg>
+        <p>${
+          store.getCurrentPage().charAt(0).toUpperCase() +
+          store.getCurrentPage().slice(1)
+        } Successfully</p>
+      </div>
+      <a class="close">&times;</a>`;
+
+  $div.setAttribute('class', `toast toast-success`);
+  $div.style.bottom = '0';
+  $body.appendChild($div);
+
+  setTimeout(() => {
+    $body.removeChild($div);
+  }, 3000);
 };
 
 $body.onkeyup = ({ target }) => {
@@ -55,34 +79,8 @@ $body.onkeyup = ({ target }) => {
 
 $body.onsubmit = e => {
   e.preventDefault();
-
   store.printLog();
-
-  // console.log(`POST /${store.getCurrentPage()}`, {
-  //   email: store.getValue('userid'),
-  //   password: store.getValue('password')
-  // });
-
-  if (e.target.classList.contains('signin')) {
-    const $div = document.createElement('div');
-    $div.innerHTML = `
-        <h4 class="toast-heading">Well done!</h4>
-        <div class="toast-message">
-          <svg width="24" height="24">
-            <use xlink:href="#success" />
-          </svg>
-          <p>${store.getCurrentPage()} Successfully</p>
-        </div>
-        <a class="close">&times;</a>`;
-
-    $div.setAttribute('class', `toast toast-success`);
-    $div.style.bottom = '0';
-    $body.appendChild($div);
-
-    setTimeout(() => {
-      $body.removeChild($div);
-    }, 3000);
-  }
+  renderToaster();
 };
 
 $body.onclick = e => {
