@@ -34,8 +34,13 @@
       }
 
       .calendar {
+        --calendar-size: 400px;
+        margin: 0 auto;
+        width: var(--calendar-size);
         border-radius: 2em;
-        box-shadow: ;
+        box-shadow: 4px 4px 20px rgb(0 0 0 / 30%);
+        overflow: hidden;
+        font-size: calc(var(--calendar-size) * 0.02);
       }
 
       /* 뷰를 구현하세요. */
@@ -45,7 +50,7 @@
         justify-content: space-between;
         background-color: #62b774;
         font-size: 2em;
-        padding: 1em;
+        padding: 0.8em;
       }
 
       .calendar-control {
@@ -59,7 +64,19 @@
       .calendar-grid {
         display: grid;
         grid-template-columns: repeat(7, 1fr);
-        gap: 30px;
+        justify-items: center;
+
+        padding: 1.4em 1em;
+        font-size: 2.3em;
+        font-weight: 500;
+      }
+
+      .date {
+        border: none;
+        padding: 13px;
+        border-radius: 50%;
+        cursor: pointer;
+        margin: 0.4em;
       }
     </style>
   </head>
@@ -88,48 +105,48 @@
           <div class="day">THU</div>
           <div class="day">FRI</div>
           <div class="day">SAT</div>
-          <div class="date">27</div>
-          <div class="date">28</div>
-          <div class="date">29</div>
-          <div class="date">30</div>
-          <div class="date">31</div>
-          <div class="date">1</div>
-          <div class="date">2</div>
-          <div class="date">3</div>
-          <div class="date">4</div>
-          <div class="date">5</div>
-          <div class="date">6</div>
-          <div class="date">7</div>
-          <div class="date">8</div>
-          <div class="date">9</div>
-          <div class="date">10</div>
-          <div class="date">11</div>
-          <div class="date">12</div>
-          <div class="date">13</div>
-          <div class="date">14</div>
-          <div class="date">15</div>
-          <div class="date">16</div>
-          <div class="date">17</div>
-          <div class="date">18</div>
-          <div class="date">19</div>
-          <div class="date">20</div>
-          <div class="date">21</div>
-          <div class="date">22</div>
-          <div class="date">23</div>
-          <div class="date">24</div>
-          <div class="date">25</div>
-          <div class="date">26</div>
-          <div class="date">27</div>
-          <div class="date">28</div>
-          <div class="date">29</div>
-          <div class="date">30</div>
-          <div class="date">31</div>
-          <div class="date">1</div>
-          <div class="date">2</div>
-          <div class="date">3</div>
-          <div class="date">4</div>
-          <div class="date">5</div>
-          <div class="date">6</div>
+          <button class="date"><span>27</span></button>
+          <button class="date"><span>28</span></button>
+          <button class="date"><span>29</span></button>
+          <button class="date"><span>30</span></button>
+          <button class="date"><span>31</span></button>
+          <button class="date"><span>1</span</button>
+          <button class="date"><span>2</span</button>
+          <button class="date"><span>3</span</button>
+          <button class="date"><span>4</span</button>
+          <button class="date"><span>5</span</button>
+          <button class="date"><span>6</span</button>
+          <button class="date"><span>7</span</button>
+          <button class="date"><span>8</span</button>
+          <button class="date"><span>9</span</button>
+          <button class="date"><span>10</span></button>
+          <button class="date"><span>11</span></button>
+          <button class="date"><span>12</span></button>
+          <button class="date"><span>13</span></button>
+          <button class="date"><span>14</span></button>
+          <button class="date"><span>15</span></button>
+          <button class="date"><span>16</span></button>
+          <button class="date"><span>17</span></button>
+          <button class="date"><span>18</span></button>
+          <button class="date"><span>19</span></button>
+          <button class="date"><span>20</span></button>
+          <button class="date"><span>21</span></button>
+          <button class="date"><span>22</span></button>
+          <button class="date"><span>23</span></button>
+          <button class="date"><span>24</span></button>
+          <button class="date"><span>25</span></button>
+          <button class="date"><span>26</span></button>
+          <button class="date"><span>27</span></button>
+          <button class="date"><span>28</span></button>
+          <button class="date"><span>29</span></button>
+          <button class="date"><span>30</span></button>
+          <button class="date"><span>31</span></button>
+          <button class="date"><span>1</span</button>
+          <button class="date"><span>2</span</button>
+          <button class="date"><span>3</span</button>
+          <button class="date"><span>4</span</button>
+          <button class="date"><span>5</span</button>
+          <button class="date"><span>6</span</button>
         </div>
       </div>
     </div>
