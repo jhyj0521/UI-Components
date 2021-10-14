@@ -15,6 +15,20 @@ let formData = [
     errorMessage: '영문 또는 숫자를 6~12자 입력하세요.',
     validated: false,
     value: ''
+  },
+  {
+    type: 'username',
+    regExp: new RegExp(/^.{1,}$/),
+    errorMessage: '이름을 입력해 주세요.',
+    validated: false,
+    value: ''
+  },
+  {
+    type: 'confirm-password',
+    regExp: '',
+    errorMessage: '패스워드가 일치하지 않습니다.',
+    validated: false,
+    value: ''
   }
 ];
 
