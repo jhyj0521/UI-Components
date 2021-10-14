@@ -10,8 +10,8 @@ const resetVaildateCheck = () => {
     $inputContainer.querySelector('.icon-error').classList.add('hidden');
 
     $inputContainer.querySelector('.error').textContent = '';
-    document.querySelector('.signin.button').disabled = 'disabled';
-    document.querySelector('.signup.button').disabled = 'disabled';
+    document.querySelector(`.${store.getCurrentPage()}.button`).disabled =
+      'disabled';
   });
 };
 
