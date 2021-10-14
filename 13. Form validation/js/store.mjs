@@ -47,10 +47,8 @@ const toggleCurrentPage = () => {
 };
 
 const setConfirmPasswordValidated = () => {
-  console.log(getValue('confirm-password'));
-  console.log(getValue('password'));
-  formData.find(({ type }) => type === 'confirm-password').validated =
-    getValue('confirm-password') === getValue('password');
+  const input = formData.find(({ type }) => type === 'confirm-password');
+  input.validated = getValue('confirm-password') === getValue('password') && getValue('password') !== '';
 };
 
 const setValidated = inputType => {

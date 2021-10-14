@@ -2,16 +2,40 @@ import store from './store.mjs';
 
 const $body = document.querySelector('body');
 
-const resetVaildateCheck = () => {
-  const inputContainers = document.querySelectorAll('.input-container');
+const renderVaildateCheck = () => {
+  const currentPage = store.getCurrentPage();
+  const inputContainers = document.querySelectorAll(
+    `.${currentPage}.form .input-container`
+  );
 
   [...inputContainers].forEach($inputContainer => {
-    $inputContainer.querySelector('.icon-success').classList.add('hidden');
-    $inputContainer.querySelector('.icon-error').classList.add('hidden');
+    const $input = $inputContainer.querySelector('input');
+    const $iconSuccess = $inputContainer.querySelector('.icon-success');
+    const $iconError = $inputContainer.querySelector('.icon-error');
+    const $error = $inputContainer.querySelector('.error');
+    const validated = store.getValidated($input.name);
+    const value = store.getValue($input.name);
 
-    $inputContainer.querySelector('.error').textContent = '';
-    document.querySelector(`.${store.getCurrentPage()}.button`).disabled =
-      'disabled';
+    console.log($input, value);
+
+    if (validated) {
+      $error.textContent = '';
+      $iconSuccess.classList.remove('hidden');
+      $iconError.classList.add('hidden');
+    } else if (value === '') {
+      $error.textContent = '';
+      $iconSuccess.classList.add('hidden');
+      $iconError.classList.add('hidden');
+    } else {
+      $error.textContent = store.getErrorMessage($input.name);
+      $iconSuccess.classList.add('hidden');
+      $iconError.classList.remove('hidden');
+    }
+
+    // $error.textContent = validated ? '' : store.getErrorMessage($input.name);
+
+    // $iconSuccess.classList.toggle('hidden', !validated);
+    // $iconError.classList.toggle('hidden', validated);
   });
 };
 
@@ -21,20 +45,9 @@ $body.onkeyup = ({ target }) => {
   if (!$inputContainer.classList.contains('input-container')) return;
 
   store.setValue(target.name, target.value);
+  renderVaildateCheck();
 
-  const validated = store.getValidated(target.name);
   const currentPage = store.getCurrentPage();
-
-  $inputContainer.querySelector('.error').textContent = validated
-    ? ''
-    : store.getErrorMessage(target.name);
-
-  $inputContainer
-    .querySelector('.icon-success')
-    .classList.toggle('hidden', !validated);
-  $inputContainer
-    .querySelector('.icon-error')
-    .classList.toggle('hidden', validated);
 
   document.querySelector(`.${currentPage}.button`).disabled =
     store.isValidForm() ? '' : 'disabled';
@@ -43,7 +56,7 @@ $body.onkeyup = ({ target }) => {
 $body.onsubmit = e => {
   e.preventDefault();
 
-  console.log('POST /signin', {
+  console.log(`POST /${store.getCurrentPage()}`, {
     email: store.getValue('userid'),
     password: store.getValue('password')
   });
@@ -78,7 +91,7 @@ $body.onclick = e => {
     $el.reset();
   });
   store.resetForm();
-  resetVaildateCheck();
+  renderVaildateCheck();
 
   store.toggleCurrentPage();
 };
