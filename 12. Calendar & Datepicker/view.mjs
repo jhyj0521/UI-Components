@@ -18,19 +18,41 @@ const MONTH = [
 const $calendar = document.querySelector('.calendar');
 
 const render = () => {
-  const date = store.getDate();
+  const _date = store.getDate();
+
+  const partOfPrevMonth = store
+    .getPartOfPrevMonth()
+    .map(date => `<button class="date prevMonth">${date}</button>`)
+    .join('');
+
+  const calendarOfMonth = store
+    .getCalendarOfMonth()
+    .map(
+      date =>
+        `<button class="date ${
+          store.isToday() && date === _date.date ? 'today' : ''
+        }">${date}</button>`
+    )
+    .join('');
+
+  const partOfNextMonth = store
+    .getPartOfNextMonth()
+    .map(date => `<button class="date nextMonth">${date}</button>`)
+    .join('');
+
+  const calendar = partOfPrevMonth + calendarOfMonth + partOfNextMonth;
 
   $calendar.innerHTML = `
     <div class="calendar-nav">
         <button class="calendar-control prev">
-          <i class="fas fa-caret-left"></i>
+          &#9664;
         </button>
         <div>
-          <div class="month">${MONTH[date.month]}</div>
-          <div class="year">${date.year}</div>
+          <div class="month">${MONTH[_date.month]}</div>
+          <div class="year">${_date.year}</div>
         </div>
         <button class="calendar-control next">
-          <i class="fas fa-caret-right"></i>
+          &#9654;
         </button>
     </div>
     <div class="calendar-grid">
@@ -41,6 +63,7 @@ const render = () => {
         <div class="day">THU</div>
         <div class="day">FRI</div>
         <div class="day">SAT</div>
+        ${calendar} 
     </div>
   `;
 };
