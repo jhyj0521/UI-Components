@@ -25,7 +25,6 @@ let formData = [
   },
   {
     type: 'confirm-password',
-    regExp: '',
     errorMessage: '패스워드가 일치하지 않습니다.',
     validated: false,
     value: ''
@@ -47,8 +46,20 @@ const toggleCurrentPage = () => {
   currentPage = currentPage === 'signin' ? 'signup' : 'signin';
 };
 
+const setConfirmPasswordValidated = () => {
+  console.log(getValue('confirm-password'));
+  console.log(getValue('password'));
+  formData.find(({ type }) => type === 'confirm-password').validated =
+    getValue('confirm-password') === getValue('password');
+};
+
 const setValidated = inputType => {
   const input = formData.find(({ type }) => type === inputType);
+
+  setConfirmPasswordValidated();
+
+  if (inputType === 'confirm-password') return;
+
   input.validated = input.regExp.test(input.value);
 };
 
