@@ -16,12 +16,9 @@ const throttle = (callback, delay) => {
   };
 };
 
-window.addEventListener(
-  'scroll',
-  throttle(() => {
-    $scrollIcon.style.display = window.pageYOffset >= 100 ? 'block' : 'none';
-  }, 100)
-);
+window.onscroll = throttle(() => {
+  $scrollIcon.style.display = window.pageYOffset >= 100 ? 'block' : 'none';
+}, 100);
 
 $scrollIcon.onclick = () => {
   window.scroll({
