@@ -31,7 +31,7 @@ const render = () => {
       date =>
         `<button class="date ${
           store.isToday() && date === _date.date ? 'today' : ''
-        }">${date}</button>`
+        } ${date === _date.date ? 'selected' : ''}">${date}</button>`
     )
     .join('');
 
