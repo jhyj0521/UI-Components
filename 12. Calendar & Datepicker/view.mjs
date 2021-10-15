@@ -18,7 +18,7 @@ const MONTH = [
 const $calendar = document.querySelector('.calendar');
 
 const render = () => {
-  const FIRST_SUNDAY_DATE = 8 - store.getFirstDayOfMonth();
+  const FIRST_SUNDAY_DATE = (8 - store.getFirstDayOfMonth()) % 7;
   const _date = store.getDate();
 
   const partOfPrevMonth = store
