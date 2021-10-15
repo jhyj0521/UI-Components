@@ -54,6 +54,7 @@ const store = {
   setDate,
   setToday,
   getDate,
+  getFirstDayOfMonth,
   getCalendarOfMonth,
   getPartOfPrevMonth,
   getPartOfNextMonth,

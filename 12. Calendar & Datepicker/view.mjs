@@ -18,6 +18,7 @@ const MONTH = [
 const $calendar = document.querySelector('.calendar');
 
 const render = () => {
+  const FIRST_SUNDAY_DATE = 8 - store.getFirstDayOfMonth();
   const _date = store.getDate();
 
   const partOfPrevMonth = store
@@ -29,9 +30,10 @@ const render = () => {
     .getCalendarOfMonth()
     .map(
       date =>
-        `<button class="date ${
-          store.isToday() && date === _date.date ? 'today' : ''
-        } ${date === _date.date ? 'selected' : ''}">${date}</button>`
+        `<button class="date 
+        ${store.isToday() && date === _date.date ? 'today' : ''} 
+        ${date === _date.date ? 'selected' : ''}
+        ${FIRST_SUNDAY_DATE === date % 7 ? 'sunday' : ''}">${date}</button>`
     )
     .join('');
 
