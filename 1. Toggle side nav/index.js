@@ -1,24 +1,27 @@
+let isSideNavigationOpen = null;
+
 const $nav = document.querySelector('nav');
 const $main = document.querySelector('main');
 const $toggle = document.querySelector('.toggle');
 
 window.addEventListener('DOMContentLoaded', () => {
-  // toggle이 없으면 추가
-  if (!localStorage.getItem('toggle')) localStorage.setItem('toggle', false);
+  isSideNavigationOpen = !!JSON.parse(localStorage.getItem('toggle'));
 
-  // toggle이 있으면
-  $nav.classList.toggle('active', JSON.parse(localStorage.getItem('toggle')));
+  if (!isSideNavigationOpen) localStorage.setItem('toggle', false);
 
-  // 처음 로드될때는 트랜지션 없음
+  $nav.classList.toggle('active', isSideNavigationOpen);
+
   [$nav, $main, $toggle].forEach($el => {
     $el.classList.add('notransition');
   });
 });
 
 $toggle.onclick = () => {
-  localStorage.setItem('toggle', !JSON.parse(localStorage.getItem('toggle')));
+  isSideNavigationOpen = !isSideNavigationOpen;
 
-  $nav.classList.toggle('active', JSON.parse(localStorage.getItem('toggle')));
+  localStorage.setItem('toggle', isSideNavigationOpen);
+
+  $nav.classList.toggle('active', isSideNavigationOpen);
 
   [$nav, $main, $toggle].forEach($el => {
     $el.classList.remove('notransition');
