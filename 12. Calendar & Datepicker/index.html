@@ -29,9 +29,23 @@
         text-align: center;
       }
 
-      .calendar {
-        --calendar-size: 400px;
+      .container {
+        position: relative;
+      }
+
+      .date-picker {
         margin: 0 auto;
+        display: block;
+        padding: 0.7em;
+        font-size: 1em;
+      }
+
+      .calendar {
+        position: absolute;
+        top: 50px;
+        left: 50%;
+        transform: translateX(-96px);
+        --calendar-size: 400px;
         width: var(--calendar-size);
         border-radius: 2em;
         box-shadow: 4px 4px 20px rgb(0 0 0 / 30%);
@@ -39,7 +53,6 @@
         font-size: calc(var(--calendar-size) * 0.02);
       }
 
-      /* 뷰를 구현하세요. */
       .calendar-nav {
         color: #fff;
         display: flex;
@@ -98,7 +111,7 @@
         border: 1px solid #62b774;
       }
 
-      .sunday{
+      .sunday {
         color: rgb(235, 75, 75);
       }
 
@@ -108,58 +121,21 @@
         color: white;
       }
 
-      .prevMonth, .nextMonth {
+      .prevMonth,
+      .nextMonth {
         color: rgb(200, 196, 196);
+      }
+
+      .hidden {
+        display: none;
       }
     </style>
   </head>
   <body>
-    <h1 class="title">Calendar</h1>
-    <div class="calendar">
-      <!-- 뷰를 구현하세요 -->
-        <!-- <button class="date selected">27</button>
-        <button class="date today">28</button>
-        <button class="date">29</button>
-        <button class="date">30</button>
-        <button class="date">31</button>
-        <button class="date">1</button>
-        <button class="date">2</button>
-        <button class="date">3</button>
-        <button class="date">4</button>
-        <button class="date">5</button>
-        <button class="date">6</button>
-        <button class="date">7</button>
-        <button class="date">8</button>
-        <button class="date">9</button>
-        <button class="date">10</button>
-        <button class="date">11</button>
-        <button class="date">12</button>
-        <button class="date">13</button>
-        <button class="date">14</button>
-        <button class="date">15</button>
-        <button class="date">16</button>
-        <button class="date">17</button>
-        <button class="date">18</button>
-        <button class="date">19</button>
-        <button class="date">20</button>
-        <button class="date">21</button>
-        <button class="date">22</button>
-        <button class="date">23</button>
-        <button class="date">24</button>
-        <button class="date">25</button>
-        <button class="date">26</button>
-        <button class="date">27</button>
-        <button class="date">28</button>
-        <button class="date">29</button>
-        <button class="date">30</button>
-        <button class="date">31</button>
-        <button class="date">1</button>
-        <button class="date">2</button>
-        <button class="date">3</button>
-        <button class="date">4</button>
-        <button class="date">5</button>
-        <button class="date">6</button> -->
-      </div>
+    <h1 class="title">Date Picker</h1>
+    <div class="container">
+      <input type="text" class="date-picker" readonly placeholder="Select date"/>
+      <div class="calendar hidden"></div>
     </div>
     <script type="module" src="index.js"></script>
   </body>
