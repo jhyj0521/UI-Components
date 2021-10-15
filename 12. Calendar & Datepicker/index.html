@@ -22,6 +22,7 @@
       body {
         font-family: 'Open Sans';
         font-weight: 300;
+        height: 100vh;
       }
       .title {
         color: #db5b33;
@@ -121,8 +122,8 @@
         color: white;
       }
 
-      .prevMonth,
-      .nextMonth {
+      .date.prevMonth,
+      .date.nextMonth {
         color: rgb(200, 196, 196);
       }
 
@@ -134,7 +135,12 @@
   <body>
     <h1 class="title">Date Picker</h1>
     <div class="container">
-      <input type="text" class="date-picker" readonly placeholder="Select date"/>
+      <input
+        type="text"
+        class="date-picker"
+        readonly
+        placeholder="Select date"
+      />
       <div class="calendar hidden"></div>
     </div>
     <script type="module" src="index.js"></script>

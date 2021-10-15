@@ -16,6 +16,7 @@ const MONTH = [
 ];
 
 const $calendar = document.querySelector('.calendar');
+const $datePicker = document.querySelector('.date-picker');
 
 const render = () => {
   const FIRST_SUNDAY_DATE = (8 - store.getFirstDayOfMonth()) % 7;
@@ -31,7 +32,7 @@ const render = () => {
     .map(
       date =>
         `<button class="date 
-        ${store.isToday() && date === _date.date ? 'today' : ''} 
+        ${store.isToday(date) ? 'today' : ''} 
         ${date === _date.date ? 'selected' : ''}
         ${FIRST_SUNDAY_DATE === date % 7 ? 'sunday' : ''}">${date}</button>`
     )
@@ -46,14 +47,14 @@ const render = () => {
 
   $calendar.innerHTML = `
     <div class="calendar-nav">
-        <button class="calendar-control prev">
+        <button class="calendar-control prevMonth">
           &#9664;
         </button>
         <div>
           <div class="month">${MONTH[_date.month]}</div>
           <div class="year">${_date.year}</div>
         </div>
-        <button class="calendar-control next">
+        <button class="calendar-control nextMonth">
           &#9654;
         </button>
     </div>

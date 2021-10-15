@@ -48,7 +48,10 @@ const getPartOfPrevMonth = () =>
 const getPartOfNextMonth = () =>
   Array.from({ length: 6 - getLastDayOfMonth() }, (_, index) => index + 1);
 
-const isToday = () => date.year === today.year && date.month === today.month;
+const isToday = _date =>
+  date.year === today.year &&
+  date.month === today.month &&
+  _date === today.date;
 
 const store = {
   setDate,
