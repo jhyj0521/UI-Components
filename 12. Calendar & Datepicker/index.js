@@ -2,7 +2,12 @@ import store from './store.mjs';
 
 const $calendar = document.querySelector('.calendar');
 
-window.addEventListener('DOMContentLoaded', store.setToday);
+const createCalendar = () => {
+  $calendar.style.setProperty('--calendar-size', '400px');
+  store.setToday();
+};
+
+window.addEventListener('DOMContentLoaded', createCalendar);
 
 $calendar.onclick = ({ target }) => {
   if (!target.classList.contains('calendar-control')) return;
