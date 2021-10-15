@@ -141,7 +141,17 @@
         readonly
         placeholder="Select date"
       />
-      <div class="calendar hidden"></div>
+      <div class="calendar hidden">
+        <div class="calendar-nav">
+          <button class="calendar-control prevMonth">&#9664;</button>
+          <div>
+            <div class="month"></div>
+            <div class="year"></div>
+          </div>
+          <button class="calendar-control nextMonth">&#9654;</button>
+        </div>
+        <div class="calendar-grid"></div>
+      </div>
     </div>
     <script type="module" src="index.js"></script>
   </body>

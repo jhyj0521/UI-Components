@@ -15,60 +15,48 @@ const MONTH = [
   'December'
 ];
 
-const $calendar = document.querySelector('.calendar');
-const $datePicker = document.querySelector('.date-picker');
+const $month = document.querySelector('.month');
+const $year = document.querySelector('.year');
+const $calendarGrid = document.querySelector('.calendar-grid');
 
 const render = () => {
   const FIRST_SUNDAY_DATE = (8 - store.getFirstDayOfMonth()) % 7;
   const _date = store.getDate();
 
+  $month.textContent = MONTH[_date.month];
+  $year.textContent = _date.year;
+
   const partOfPrevMonth = store
     .getPartOfPrevMonth()
-    .map(date => `<button class="date prevMonth">${date}</button>`)
-    .join('');
+    .map(date => `<button class="date prevMonth">${date}</button>`);
 
-  const calendarOfMonth = store
-    .getCalendarOfMonth()
-    .map(
-      date =>
-        `<button class="date 
+  const calendarOfMonth = store.getCalendarOfMonth().map(
+    date =>
+      `<button class="date 
         ${store.isToday(date) ? 'today' : ''} 
         ${date === _date.date ? 'selected' : ''}
         ${FIRST_SUNDAY_DATE === date % 7 ? 'sunday' : ''}">${date}</button>`
-    )
-    .join('');
+  );
 
   const partOfNextMonth = store
     .getPartOfNextMonth()
-    .map(date => `<button class="date nextMonth">${date}</button>`)
-    .join('');
+    .map(date => `<button class="date nextMonth">${date}</button>`);
 
-  const calendar = partOfPrevMonth + calendarOfMonth + partOfNextMonth;
+  const calendar = [
+    ...partOfPrevMonth,
+    ...calendarOfMonth,
+    ...partOfNextMonth
+  ].join('');
 
-  $calendar.innerHTML = `
-    <div class="calendar-nav">
-        <button class="calendar-control prevMonth">
-          &#9664;
-        </button>
-        <div>
-          <div class="month">${MONTH[_date.month]}</div>
-          <div class="year">${_date.year}</div>
-        </div>
-        <button class="calendar-control nextMonth">
-          &#9654;
-        </button>
-    </div>
-    <div class="calendar-grid">
-        <div class="day">SUN</div>
-        <div class="day">MON</div>
-        <div class="day">TUE</div>
-        <div class="day">WED</div>
-        <div class="day">THU</div>
-        <div class="day">FRI</div>
-        <div class="day">SAT</div>
-        ${calendar} 
-    </div>
-  `;
+  $calendarGrid.innerHTML = `
+    <div class="day">SUN</div>
+    <div class="day">MON</div>
+    <div class="day">TUE</div>
+    <div class="day">WED</div>
+    <div class="day">THU</div>
+    <div class="day">FRI</div>
+    <div class="day">SAT</div>
+    ${calendar}`;
 };
 
 const view = { render };
