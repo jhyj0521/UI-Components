@@ -10,14 +10,14 @@ const setDate = newDate => {
 
 const setToday = () => {
   const _today = new Date();
-  const _date = {
+
+  today = {
     year: _today.getFullYear(),
     month: _today.getMonth(),
     date: _today.getDate()
   };
 
-  today = _date;
-  setDate({ ..._date });
+  setDate({ ...today });
 };
 
 const getDate = () => date;
