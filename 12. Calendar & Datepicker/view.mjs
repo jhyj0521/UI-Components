@@ -17,7 +17,7 @@ const MONTH = [
 
 const $month = document.querySelector('.month');
 const $year = document.querySelector('.year');
-const $calendarGrid = document.querySelector('.calendar-grid');
+const $dateContainer = document.querySelector('.date-container');
 
 const render = () => {
   const FIRST_SUNDAY_DATE = (8 - store.getFirstDayOfMonth()) % 7;
@@ -48,15 +48,7 @@ const render = () => {
     ...partOfNextMonth
   ].join('');
 
-  $calendarGrid.innerHTML = `
-    <div class="day">SUN</div>
-    <div class="day">MON</div>
-    <div class="day">TUE</div>
-    <div class="day">WED</div>
-    <div class="day">THU</div>
-    <div class="day">FRI</div>
-    <div class="day">SAT</div>
-    ${calendar}`;
+  $dateContainer.innerHTML = calendar;
 };
 
 const view = { render };
