@@ -7,10 +7,12 @@ const Counter = (() => {
 
   return {
     increase() {
-      return ++count;
+      count += 1;
+      return count;
     },
     decrease() {
-      return count > 0 ? --count : 0;
+      count = count > 0 ? count - 1 : 0;
+      return count;
     }
   };
 })();
