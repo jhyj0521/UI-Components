@@ -1,7 +1,6 @@
 (() => {
-  // state
   let count = 0;
-  let currentTime = 0;
+  let displayTime = 0;
   let savedTime = 0;
   let started = false;
   let timeoutId = '';
@@ -13,19 +12,19 @@
   const $laps = document.querySelector('.laps');
   const $lapTitle = [...document.querySelectorAll('.lap-title')];
 
-  const parseCurrentTime = () => {
-    const minute = Math.floor(currentTime / 1000 / 60);
-    const second = Math.floor((currentTime / 1000) % 60);
-    const millisecond = Math.floor((currentTime / 10) % 100);
+  const parseDisplayTime = () => {
+    const minute = Math.floor(displayTime / 1000 / 60);
+    const second = Math.floor((displayTime / 1000) % 60);
+    const millisecond = Math.floor((displayTime / 10) % 100);
 
     return [minute, second, millisecond]
       .map(unit => (unit + '').padStart(2, '0'))
       .join(':');
   };
 
-  const renderCurrentTime = () => {
-    $rightButton.disabled = !started && !currentTime;
-    $display.textContent = parseCurrentTime();
+  const renderDisplayTime = () => {
+    $rightButton.disabled = !started && !displayTime;
+    $display.textContent = parseDisplayTime();
   };
 
   const renderLaps = record => {
@@ -55,7 +54,7 @@
       $rightButton.textContent = 'Reset';
     }
 
-    $rightButton.disabled = !started && !currentTime;
+    $rightButton.disabled = !started && !displayTime;
   };
 
   const renderReset = () => {
@@ -73,22 +72,22 @@
     renderButton();
   };
 
-  const setCurrentTime = time => {
-    currentTime = time;
+  const setDisplayTime = time => {
+    displayTime = time;
 
-    renderCurrentTime();
+    renderDisplayTime();
   };
 
   const startTime = () => {
     const startTime = new Date();
 
     timeoutId = setInterval(() => {
-      setCurrentTime(savedTime + (new Date() - startTime));
+      setDisplayTime(savedTime + (new Date() - startTime));
     }, 30);
   };
 
   const stopTime = () => {
-    savedTime = currentTime;
+    savedTime = displayTime;
     clearInterval(timeoutId);
   };
 
@@ -96,14 +95,14 @@
     count = 0;
     savedTime = 0;
 
-    setCurrentTime(0);
+    setDisplayTime(0);
     renderReset();
   };
 
   const lapTime = () => {
     count += 1;
 
-    renderLaps({ lap: count, time: parseCurrentTime() });
+    renderLaps({ lap: count, time: parseDisplayTime() });
   };
 
   window.addEventListener('DOMContentLoaded', () => {
