@@ -1,6 +1,6 @@
 let currentSlide = 1;
 let imageLength = 0;
-let delayed = false;
+const SLIDES_TRANSITION_DURATION = 300;
 
 const $carousel = document.querySelector('.carousel');
 
@@ -9,7 +9,7 @@ const carousel = ($container, images) => {
 
   const imageTag = `
     <img src="${images[imageLength - 1]}" />
-    ${images.map(image => `<img src="${image}"  />`).join('')}
+    ${images.map(image => `<img src="${image}" />`).join('')}
     <img src="${images[0]}" />`;
 
   $container.innerHTML = `
@@ -32,36 +32,39 @@ const setCurrentSlide = () => {
   setTimeout(() => {
     $carouselSlides.style.setProperty('--duration', '0');
     $carouselSlides.style.setProperty('--currentSlide', currentSlide);
-  }, 200);
+  }, SLIDES_TRANSITION_DURATION);
 };
 
 window.onload = () => {
   const $carouselSlides = document.querySelector('.carousel-slides');
 
-  // TODO: scrollWidth와 naturalWidth 중 사용할 것 결정하기
   $carousel.style.width = $carouselSlides.firstElementChild.scrollWidth + 'px';
   $carousel.style.opacity = 1;
-  $carouselSlides.style.setProperty('--duration', '200');
+  $carouselSlides.style.setProperty('--duration', SLIDES_TRANSITION_DURATION);
 };
 
-$carousel.onclick = e => {
-  if (delayed || !e.target.classList.contains('carousel-control')) return;
+const clickControlButton = ({target}) => {
+  if (!target.classList.contains('carousel-control')) return;
 
-  delayed = setTimeout(() => {
-    delayed = false;
-  }, 300);
+  $carousel.removeEventListener('click', clickControlButton);
 
   const $carouselSlides = document.querySelector('.carousel-slides');
 
-  currentSlide = e.target.classList.contains('prev')
+  currentSlide = target.classList.contains('prev')
     ? currentSlide - 1
     : currentSlide + 1;
 
   $carouselSlides.style.setProperty('--currentSlide', currentSlide);
 
   if (currentSlide === 0 || currentSlide === imageLength + 1) setCurrentSlide();
-  $carouselSlides.style.setProperty('--duration', '200');
+  $carouselSlides.style.setProperty('--duration', SLIDES_TRANSITION_DURATION);
 };
+
+$carousel.ontransitionend = () => {
+  $carousel.addEventListener('click', clickControlButton);
+};
+
+$carousel.addEventListener('click', clickControlButton);
 
 carousel($carousel, [
   'movies/movie-1.jpg',
