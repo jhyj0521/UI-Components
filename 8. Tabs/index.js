@@ -1,10 +1,8 @@
-// state
 let tabsData = [];
 
 const $spinner = document.querySelector('.spinner');
 const $tabs = document.querySelector('.tabs');
 
-// fetch fake data
 // eslint-disable-next-line arrow-body-style
 const fetchTabsData = () => {
   return new Promise(resolve => {
@@ -30,58 +28,49 @@ const fetchTabsData = () => {
 };
 
 const render = () => {
-  let tabTitle = ``;
-  let tabContent = ``;
+  const tabTitle = tabsData
+    .map(
+      (tabData, index) =>
+        `<div class="tab" data-index="${index}">${tabData.title}</div>`
+    )
+    .join('');
 
-  tabsData.forEach((tabData, index) => {
-    tabTitle += `<div class="tab" data-index="${index}">${tabData.title}</div>`;
-    tabContent += `<div class="tab-content ${index ? '' : 'active'}">${
-      tabData.content
-    }</div>`;
-  });
-
-  $tabs.innerHTML = `<nav>${tabTitle}<span class="glider"></span></nav>${tabContent}`;
-  $tabs.style.setProperty('--tabs-length', tabsData.length);
-
-  /*
-    $tabs.innerHTML =
-    `<nav>` +
-    tabsData
-      .map(
-        (tabData, index) =>
-          `<div class="tab" data-index="${index}">${tabData.title}</div>`
-      )
-      .join('') +
-    `<span class="glider"></span></nav>` +
-    tabsData
-      .map(
-        (tabData, index) =>
-          `<div class="tab-content ${index ? '' : 'active'}">
+  const tabContent = tabsData
+    .map(
+      (tabData, index) =>
+        `<div class="tab-content ${index ? '' : 'active'}">
         ${tabData.content}
-          </div>`
-      )
-      .join('');
+      </div>`
+    )
+    .join('');
 
-  */
+  $tabs.innerHTML = `
+    <nav>
+      ${tabTitle}
+      <span class="glider"></span>
+    </nav>
+    ${tabContent}`;
+
+  $tabs.style.setProperty('--tabs-length', tabsData.length);
 };
 
-// Do something!
 window.addEventListener('DOMContentLoaded', () => {
   fetchTabsData().then(newData => {
     tabsData = newData;
     $spinner.style.display = 'none';
+
     render();
   });
 });
 
-$tabs.onclick = e => {
-  if (!e.target.classList.contains('tab')) return;
+$tabs.onclick = ({ target }) => {
+  if (!target.classList.contains('tab')) return;
 
   [...document.querySelectorAll('.tab-content')].forEach(($el, index) => {
-    $el.classList.toggle('active', index === +e.target.dataset.index);
+    $el.classList.toggle('active', index === +target.dataset.index);
   });
 
   document.querySelector(
     '.glider'
-  ).style.left = `calc(var(--tab-width) * ${e.target.dataset.index}px)`;
+  ).style.left = `calc(var(--tab-width) * ${target.dataset.index}px)`;
 };
