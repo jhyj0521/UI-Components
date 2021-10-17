@@ -22,21 +22,58 @@
       .join(':');
   };
 
-  const renderDisplayTime = () => {
-    $resetLapToggleButton.disabled = !started && !displayTime;
-    $display.textContent = parseDisplayTime();
+  const renderButton = () => {
+    $startStopToggleButton.textContent = started ? 'Stop' : 'Start';
+    $resetLapToggleButton.textContent = started ? 'Lap' : 'Reset';
+    $resetLapToggleButton.disabled = '';
   };
 
-  const renderLaps = record => {
+  const renderReset = () => {
+    $display.textContent = parseDisplayTime();
+    $resetLapToggleButton.disabled = 'disabled';
+    $laps.innerHTML = '';
+
+    $lapTitle.forEach($el => $laps.appendChild($el));
+
     $lapTitle.forEach($el => {
-      $el.style.display = lapNo ? 'block' : 'none';
+      $el.style.display = 'none';
+    });
+  };
+
+  const startStopwatch = () => {
+    const startTime = new Date();
+
+    timeoutId = setInterval(() => {
+      displayTime = savedTime + (new Date() - startTime);
+      $display.textContent = parseDisplayTime();
+    }, 30);
+  };
+
+  const stopStopwatch = () => {
+    savedTime = displayTime;
+    clearInterval(timeoutId);
+  };
+
+  const resetStopwatch = () => {
+    lapNo = 0;
+    savedTime = 0;
+    displayTime = 0;
+
+    renderReset();
+  };
+
+  const lapTime = () => {
+    lapNo += 1;
+
+    $lapTitle.forEach($el => {
+      $el.style.display = 'block';
     });
 
     const $fragment = document.createDocumentFragment();
 
-    Object.keys(record).forEach(key => {
+    [lapNo, parseDisplayTime()].forEach(value => {
       const $div = document.createElement('div');
-      const textNode = document.createTextNode(record[key]);
+      const textNode = document.createTextNode(value);
 
       $div.appendChild(textNode);
       $fragment.appendChild($div);
@@ -45,57 +82,10 @@
     $laps.appendChild($fragment);
   };
 
-  const renderButton = () => {
-    $startStopToggleButton.textContent = started ? 'Stop' : 'Start';
-    $resetLapToggleButton.textContent = started ? 'Lap' : 'Reset';
-    $resetLapToggleButton.disabled = !started && !displayTime;
-  };
-
-  const renderReset = () => {
-    $laps.innerHTML = '';
-    $lapTitle.forEach($el => $laps.appendChild($el));
-
-    $lapTitle.forEach($el => {
-      $el.style.display = 'none';
-    });
-  };
-
-  const startTime = () => {
-    const startTime = new Date();
-
-    timeoutId = setInterval(() => {
-      displayTime = savedTime + (new Date() - startTime);
-      renderDisplayTime();
-    }, 30);
-  };
-
-  const stopTime = () => {
-    savedTime = displayTime;
-    clearInterval(timeoutId);
-  };
-
-  const resetTime = () => {
-    lapNo = 0;
-    savedTime = 0;
-    displayTime = 0;
-
-    renderDisplayTime();
-    renderReset();
-  };
-
-  const lapTime = () => {
-    lapNo += 1;
-
-    renderLaps({ lapNo, time: parseDisplayTime() });
-  };
-
-  window.addEventListener('DOMContentLoaded', () => {
-    renderLaps({});
-    renderButton();
-  });
+  window.addEventListener('DOMContentLoaded', renderReset);
 
   $startStopToggleButton.onclick = () => {
-    started ? stopTime() : startTime();
+    started ? stopStopwatch() : startStopwatch();
 
     started = !started;
 
@@ -103,6 +93,6 @@
   };
 
   $resetLapToggleButton.onclick = () => {
-    started ? lapTime() : resetTime();
+    started ? lapTime() : resetStopwatch();
   };
 })();
