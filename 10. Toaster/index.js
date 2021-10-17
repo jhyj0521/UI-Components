@@ -1,12 +1,12 @@
 const $body = document.querySelector('body');
 
 const toaster = (() => {
-  let count = 0;
+  let toastCount = 0;
   return {
     add({ type, title, message }) {
       const $div = document.createElement('div');
       $div.innerHTML = `
-        <h4 class="toast-heading">${title} ${count}</h4>
+        <h4 class="toast-heading">${title} ${toastCount}</h4>
         <div class="toast-message">
           <svg width="24" height="24">
             <use xlink:href="#${type}" />
@@ -19,18 +19,18 @@ const toaster = (() => {
       $div.setAttribute('class', `toast toast-${type}`);
 
       $body.appendChild($div);
-      count += 1;
+      toastCount += 1;
 
       const toasts = [...document.querySelectorAll('.toast')];
-      const height = $div.scrollHeight;
+      const toastHeight = $div.scrollHeight;
 
       toasts.forEach(($el, index) => {
-        $el.style.bottom = height * (toasts.length - 1 - index) + 'px';
+        $el.style.bottom = toastHeight * (toasts.length - 1 - index) + 'px';
       });
 
       setTimeout(() => {
         $body.removeChild($div);
-        count -= 1;
+        toastCount -= 1;
       }, 3000);
     }
   };
