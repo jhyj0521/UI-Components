@@ -1,77 +1,45 @@
 import store from './store.mjs';
+import renderToaster from './toast.mjs';
 
 const $body = document.querySelector('body');
 
-const renderVaildateCheck = () => {
-  const currentPage = store.getCurrentPage();
-  const inputContainers = document.querySelectorAll(
-    `.${currentPage}.form .input-container`
-  );
+const validateCheck = (target, inputType) => {
+  const validated = store.getValidated(inputType);
+  const errorMessage = store.getErrorMessage(inputType);
 
-  [...inputContainers].forEach($inputContainer => {
-    const $input = $inputContainer.querySelector('input');
-    const $iconSuccess = $inputContainer.querySelector('.icon-success');
-    const $iconError = $inputContainer.querySelector('.icon-error');
-    const $error = $inputContainer.querySelector('.error');
-    const validated = store.getValidated($input.name);
-    const value = store.getValue($input.name);
-
-    if (validated) {
-      $error.textContent = '';
-      $iconSuccess.classList.remove('hidden');
-      $iconError.classList.add('hidden');
-    } else if (value === '') {
-      $error.textContent = '';
-      $iconSuccess.classList.add('hidden');
-      $iconError.classList.add('hidden');
-    } else {
-      $error.textContent = store.getErrorMessage($input.name);
-      $iconSuccess.classList.add('hidden');
-      $iconError.classList.remove('hidden');
-    }
-
-    document.querySelector(`.${currentPage}.button`).disabled = 'disabled';
-
-    // $error.textContent = validated ? '' : store.getErrorMessage($input.name);
-
-    // $iconSuccess.classList.toggle('hidden', !validated);
-    // $iconError.classList.toggle('hidden', validated);
-  });
+  target.querySelector('.error').textContent = validated ? '' : errorMessage;
+  target.querySelector('.icon-success').classList.toggle('hidden', !validated);
+  target.querySelector('.icon-error').classList.toggle('hidden', validated);
 };
 
-const renderToaster = () => {
-  const $div = document.createElement('div');
-  $div.innerHTML = `
-      <h4 class="toast-heading">Well done!</h4>
-      <div class="toast-message">
-        <svg width="24" height="24">
-          <use xlink:href="#success" />
-        </svg>
-        <p>${
-          store.getCurrentPage().charAt(0).toUpperCase() +
-          store.getCurrentPage().slice(1)
-        } Successfully</p>
-      </div>
-      <a class="close">&times;</a>`;
+const resetVaildateCheck = () => {
+  const inputContainers = document.querySelectorAll('.input-container');
 
-  $div.setAttribute('class', `toast toast-success`);
-  $div.style.bottom = '0';
-  $body.appendChild($div);
+  [...inputContainers].forEach($inputContainer => {
+    $inputContainer.querySelector('.icon-success').classList.add('hidden');
+    $inputContainer.querySelector('.icon-error').classList.add('hidden');
 
-  setTimeout(() => {
-    $body.removeChild($div);
-  }, 3000);
+    $inputContainer.querySelector('.error').textContent = '';
+    document.querySelector(`.${store.getCurrentPage()}.button`).disabled =
+      'disabled';
+  });
 };
 
 $body.onkeyup = ({ target }) => {
   const $inputContainer = target.parentNode;
+  const currentPage = store.getCurrentPage();
 
   if (!$inputContainer.classList.contains('input-container')) return;
 
   store.setValue(target.name, target.value);
-  renderVaildateCheck();
+  validateCheck($inputContainer, target.name);
 
-  const currentPage = store.getCurrentPage();
+  if (
+    currentPage === 'signup' &&
+    target.name === 'password' &&
+    store.getValue('confirm-password')
+  )
+    validateCheck($inputContainer.nextElementSibling, 'confirm-password');
 
   document.querySelector(`.${currentPage}.button`).disabled =
     store.isValidForm() ? '' : 'disabled';
@@ -83,15 +51,14 @@ $body.onsubmit = e => {
   renderToaster();
 };
 
-$body.onclick = e => {
-  if (!e.target.parentNode.classList.contains('link')) return;
+$body.onclick = ({ target }) => {
+  if (!target.parentNode.classList.contains('link')) return;
 
   [...document.querySelectorAll('form')].forEach($el => {
     $el.classList.toggle('hidden');
     $el.reset();
   });
   store.resetForm();
-  renderVaildateCheck();
-
   store.toggleCurrentPage();
+  resetVaildateCheck();
 };
