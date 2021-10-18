@@ -9,7 +9,7 @@ const createCalendar = () => {
   store.setToday();
 };
 
-const format = n => (n < 10 ? '0' + n : n + '');
+const dateFormat = n => (n < 10 ? '0' + n : n + '');
 
 window.addEventListener('DOMContentLoaded', createCalendar);
 
@@ -38,7 +38,7 @@ $calendar.onclick = e => {
   month = e.target.classList.contains('prevMonth')
     ? (month + 11) % 12
     : e.target.classList.contains('nextMonth')
-    ? (month = (month + 13) % 12)
+    ? (month + 13) % 12
     : month;
 
   if (e.target.classList.contains('date')) {
@@ -46,7 +46,7 @@ $calendar.onclick = e => {
     $calendar.classList.add('hidden');
   }
 
-  const formatDate = `${year}-${format(month + 1)}-${format(date)}`;
+  const formatDate = `${year}-${dateFormat(month + 1)}-${dateFormat(date)}`;
 
   $datePicker.value = formatDate;
   console.log(formatDate);
