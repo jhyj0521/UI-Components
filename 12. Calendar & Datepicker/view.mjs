@@ -1,5 +1,6 @@
 import store from './store.mjs';
 
+const DAYS_OF_THE_WEEK = 7;
 const MONTH = [
   'January',
   'February',
@@ -20,11 +21,12 @@ const $year = document.querySelector('.year');
 const $dateContainer = document.querySelector('.date-container');
 
 const render = () => {
-  const FIRST_SUNDAY_DATE = (8 - store.getFirstDayOfMonth()) % 7;
-  const _date = store.getDate();
+  const FIRST_SUNDAY_DATE =
+    (DAYS_OF_THE_WEEK + 1 - store.getFirstDayOfMonth()) % DAYS_OF_THE_WEEK;
+  const selectedDate = store.getSelectedDate();
 
-  $month.textContent = MONTH[_date.month];
-  $year.textContent = _date.year;
+  $month.textContent = MONTH[selectedDate.month];
+  $year.textContent = selectedDate.year;
 
   const partOfPrevMonth = store
     .getPartOfPrevMonth()
@@ -34,8 +36,10 @@ const render = () => {
     date =>
       `<button class="date 
         ${store.isToday(date) ? 'today' : ''} 
-        ${date === _date.date ? 'selected' : ''}
-        ${FIRST_SUNDAY_DATE === date % 7 ? 'sunday' : ''}">${date}</button>`
+        ${date === selectedDate.date ? 'selected' : ''}
+        ${FIRST_SUNDAY_DATE === date % DAYS_OF_THE_WEEK ? 'sunday' : ''}">
+        ${date}
+      </button>`
   );
 
   const partOfNextMonth = store

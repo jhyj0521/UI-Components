@@ -1,40 +1,56 @@
 import view from './view.mjs';
 
-let date = {};
-let today = {};
+const MILLISECONDS_IN_A_DAY = 86400000;
+const DAYS_OF_THE_WEEK = 7;
 
-const setDate = newDate => {
-  date = newDate;
+let selectedDate = {
+  year: null,
+  month: null,
+  date: null
+};
+let todayDate = {
+  year: null,
+  month: null,
+  date: null
+};
+
+const setSelectedDate = newDate => {
+  selectedDate = newDate;
   view.render();
 };
 
 const setToday = () => {
-  const _today = new Date();
+  const today = new Date();
 
-  today = {
-    year: _today.getFullYear(),
-    month: _today.getMonth(),
-    date: _today.getDate()
+  todayDate = {
+    year: today.getFullYear(),
+    month: today.getMonth(),
+    date: today.getDate()
   };
 
-  setDate({ ...today });
+  setSelectedDate({ ...todayDate });
 };
 
-const getDate = () => date;
+const getSelectedDate = () => selectedDate;
 
 const getLastDateOfPrevMonth = () => {
-  const _date = new Date(date.year, date.month, 1);
-  _date.setTime(_date - 86400000);
-  return _date.getDate();
+  const date = new Date(selectedDate.year, selectedDate.month, 1);
+  date.setTime(date - MILLISECONDS_IN_A_DAY);
+  return date.getDate();
 };
 
-const getFirstDayOfMonth = () => new Date(date.year, date.month, 1).getDay();
+const getFirstDayOfMonth = () =>
+  new Date(selectedDate.year, selectedDate.month, 1).getDay();
 
 const getLastDateOfMonth = () =>
-  new Date(date.year, date.month + 1, 0).getDate();
+  new Date(selectedDate.year, selectedDate.month + 1, 0).getDate();
 
 const getLastDayOfMonth = () =>
-  new Date(date.year, date.month, getLastDateOfMonth()).getDay();
+  new Date(
+    selectedDate.year,
+    selectedDate.month,
+    getLastDateOfMonth()
+  ).getDay();
 
 const getCalendarOfMonth = () =>
   Array.from({ length: getLastDateOfMonth() }, (_, index) => index + 1);
@@ -46,17 +62,20 @@ const getPartOfPrevMonth = () =>
   ).reverse();
 
 const getPartOfNextMonth = () =>
-  Array.from({ length: 6 - getLastDayOfMonth() }, (_, index) => index + 1);
+  Array.from(
+    { length: DAYS_OF_THE_WEEK - 1 - getLastDayOfMonth() },
+    (_, index) => index + 1
+  );
 
-const isToday = _date =>
-  date.year === today.year &&
-  date.month === today.month &&
-  _date === today.date;
+const isToday = date =>
+  selectedDate.year === todayDate.year &&
+  selectedDate.month === todayDate.month &&
+  date === todayDate.date;
 
 const store = {
-  setDate,
+  setSelectedDate,
   setToday,
-  getDate,
+  getSelectedDate,
   getFirstDayOfMonth,
   getCalendarOfMonth,
   getPartOfPrevMonth,

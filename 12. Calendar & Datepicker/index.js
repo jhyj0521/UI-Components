@@ -1,5 +1,9 @@
 import store from './store.mjs';
 
+const FIRST_MONTH_OF_THE_YEAR = 0;
+const LAST_MONTH_OF_THE_YEAR = 11;
+const MONTHS_OF_THE_YEAR = 12;
+
 const $body = document.querySelector('body');
 const $datePicker = document.querySelector('.date-picker');
 const $calendar = document.querySelector('.calendar');
@@ -26,19 +30,21 @@ $calendar.onclick = e => {
 
   if (!e.target.matches('.calendar button')) return;
 
-  let { year, month, date } = store.getDate();
+  let { year, month, date } = store.getSelectedDate();
 
   year =
-    month === 0 && e.target.classList.contains('prevMonth')
+    month === FIRST_MONTH_OF_THE_YEAR &&
+    e.target.classList.contains('prevMonth')
       ? year - 1
-      : month === 11 && e.target.classList.contains('nextMonth')
+      : month === LAST_MONTH_OF_THE_YEAR &&
+        e.target.classList.contains('nextMonth')
       ? year + 1
       : year;
 
   month = e.target.classList.contains('prevMonth')
-    ? (month + 11) % 12
+    ? (month + MONTHS_OF_THE_YEAR - 1) % MONTHS_OF_THE_YEAR
     : e.target.classList.contains('nextMonth')
-    ? (month + 13) % 12
+    ? (month + MONTHS_OF_THE_YEAR + 1) % MONTHS_OF_THE_YEAR
     : month;
 
   if (e.target.classList.contains('date')) {
@@ -51,5 +57,5 @@ $calendar.onclick = e => {
   $datePicker.value = formatDate;
   console.log(formatDate);
 
-  store.setDate({ year, month, date });
+  store.setSelectedDate({ year, month, date });
 };
