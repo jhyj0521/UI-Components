@@ -43,7 +43,7 @@ window.onload = () => {
   $carouselSlides.style.setProperty('--duration', SLIDES_TRANSITION_DURATION);
 };
 
-const clickControlButton = ({target}) => {
+const clickControlButton = ({ target }) => {
   if (!target.classList.contains('carousel-control')) return;
 
   $carousel.removeEventListener('click', clickControlButton);
@@ -55,9 +55,9 @@ const clickControlButton = ({target}) => {
     : currentSlide + 1;
 
   $carouselSlides.style.setProperty('--currentSlide', currentSlide);
+  $carouselSlides.style.setProperty('--duration', SLIDES_TRANSITION_DURATION);
 
   if (currentSlide === 0 || currentSlide === imageLength + 1) setCurrentSlide();
-  $carouselSlides.style.setProperty('--duration', SLIDES_TRANSITION_DURATION);
 };
 
 $carousel.ontransitionend = () => {
