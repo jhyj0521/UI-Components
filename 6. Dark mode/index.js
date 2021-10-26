@@ -5,7 +5,7 @@ const $body = document.querySelector('body');
 const $toggleButton = document.querySelector('.toggle-button');
 
 window.addEventListener('DOMContentLoaded', () => {
-  $body.style.display = 'none';
+  $body.style.opacity = 0;
 
   isDarkMode = JSON.parse(localStorage.getItem('isDarkMode'));
 
@@ -17,8 +17,8 @@ window.addEventListener('DOMContentLoaded', () => {
   $body.classList.toggle('dark', isDarkMode);
 
   setTimeout(() => {
-    $body.style.display = 'block';
-  }, 0);
+    $body.style.opacity = 1;
+  }, 300);
 });
 
 $toggleButton.onclick = () => {
