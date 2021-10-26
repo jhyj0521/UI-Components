@@ -29,10 +29,11 @@ const setCurrentSlide = () => {
 
   currentSlide = currentSlide ? 1 : imageLength;
 
-  setTimeout(() => {
+  $carouselSlides.ontransitionend = () => {
     $carouselSlides.style.setProperty('--duration', '0');
     $carouselSlides.style.setProperty('--currentSlide', currentSlide);
-  }, SLIDES_TRANSITION_DURATION);
+    $carouselSlides.ontransitionend = null;
+  };
 };
 
 window.onload = () => {
@@ -46,7 +47,7 @@ window.onload = () => {
 const clickControlButton = ({ target }) => {
   if (!target.classList.contains('carousel-control')) return;
 
-  $carousel.removeEventListener('click', clickControlButton);
+  $carousel.onclick = null;
 
   const $carouselSlides = document.querySelector('.carousel-slides');
 
@@ -61,10 +62,10 @@ const clickControlButton = ({ target }) => {
 };
 
 $carousel.ontransitionend = () => {
-  $carousel.addEventListener('click', clickControlButton);
+  $carousel.onclick = clickControlButton;
 };
 
-$carousel.addEventListener('click', clickControlButton);
+$carousel.onclick = clickControlButton;
 
 carousel($carousel, [
   'movies/movie-1.jpg',
